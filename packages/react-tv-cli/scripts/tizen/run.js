@@ -5,7 +5,8 @@ const execSync = require('child_process').execSync;
 
 function defaultCLIEnv() {
   //return '/opt/tizen/tools/ide/bin';
-  return 'E:/Ferramentas/tizen/tools/ide/bin';
+  // return 'E:/Ferramentas/tizen/tools/ide/bin';
+  return '/Users/celio.latorraca/tizen-studio/tools/ide/bin';
 }
 
 function getPackageId(root) {
@@ -64,7 +65,8 @@ function run(root) {
     .toString()
     .trim()
     .split('\n');
-  if (!securityProfiles) {
+  if (!securityProfiles ||
+      securityProfiles[securityProfiles.length - 1].indexOf('[Profile Name]') > 0) {
     return console.log(
       chalk.dim('[react-tv]'),
       'No tizen security profiles found'
@@ -113,9 +115,7 @@ function run(root) {
   ).toString();
 
   if (vms.indexOf('react-tv-tizen') < 0) {
-    execSync(
-      `${tizen_CLI_ENV}/../../emulator/bin/em-cli create -n react-tv-tizen -p tv-samsung-3.0-x86`
-    );
+    execSync(`${tizen_CLI_ENV}/../../emulator/bin/em-cli create -n react-tv-tizen -p tv-samsung-4.0-x86`);
   }
 
   const runningVms = execSync(`${tizen_CLI_ENV}/../../sdb devices`).toString();
